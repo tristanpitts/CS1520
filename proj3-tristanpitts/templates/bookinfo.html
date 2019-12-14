@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Book Info{% endblock %}
+
+{% block main %}
+	<h2>{{ self.title() }}</h2>
+
+	<b>Author: </b> {{book.author}}
+	<p>
+	<b>Title: </b> {{book.title}}
+	<p>
+	{% if not numUsers == 0 %}
+	Currently Borrowed By:
+	<p>
+		{% for u in users %}
+			{% if book in u.borrows %}
+				{{u.username}}
+				<p>
+			{%endif%}
+		{%endfor%}
+	{% else %}
+		Nobody is currently borrowing this book
+		<p>
+			<form method="post">
+				<button type="submit" name="delete" value={{book.book_id}}>Remove Book from Library</button>
+			</form>
+		<p>
+	{% endif %}
+{% endblock %}

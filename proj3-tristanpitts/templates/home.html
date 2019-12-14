@@ -1,0 +1,158 @@
+{% extends "base.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block main %}
+	{# neat! you can actually "call" other blocks like methods... since they are. #}
+	<h2>{{ self.title() }}</h2>
+
+	{# this is the basic test we're using to see if someone is logged in.
+		you'll have to extend this logic further... #}
+	{% if g.user %}
+		<p>Welcome Back!
+			{% if g.user.librarian %}
+				<p>
+				<table border="black">
+					<tr>
+						<th colspan=5>
+							Books
+						</th>
+					</tr>
+					<tr>
+						<th>
+							Title
+						</th>
+						<th>
+							Author
+						</th>
+						<th>
+							Borrows
+						</th>
+						<th>
+							Status
+						</th>
+						<th>
+							Action
+						</th>
+					</tr>
+					{% for book in books %}
+					<tr>
+						<td>
+							<li> <a href="{{ url_for('books', book_id=book.book_id) }}">{{book.title}}</a>
+						</td>
+						<td>
+							{{book.author}}
+						</td>
+						<td>
+							{{borrows[book.book_id]}}
+						</td>
+						<td>
+							{% if book in user.borrows %}
+								Borrowed
+							{% else %}
+								Not Borrowed
+							{% endif %}
+						</td>
+						<td>
+							{% if book in user.borrows %}
+								<form method="post">
+									<button type="submit" name="book_id" value={{book.book_id}}>Return</button>
+								</form>
+								{% else %}
+								<form method="post">
+									<button type="submit" name="book_id" value={{book.book_id}}>Borrow</button>
+								</form>
+								{% endif %}
+					 </td>
+					{% endfor %}
+				</tr>
+				</table>
+				<p>
+			{% else %}
+				<p>
+					Click Borrow to borrow a book. To return a book, click Return.
+				<p>
+				<table border="black">
+					<tr>
+						<th colspan=4>
+							Books
+						</th>
+					</tr>
+					<tr>
+						<th>
+							Title
+						</th>
+						<th>
+							Author
+						</th>
+						<th>
+							Status
+						</th>
+						<th>
+							Action
+						</th>
+					</tr>
+					{% for book in books %}
+					<tr>
+						<td>
+							{{book.title}}
+						</td>
+						<td>
+							{{book.author}}
+						</td>
+						<td>
+							{% if book in user.borrows %}
+								Borrowed
+							{% else %}
+								Not Borrowed
+							{% endif %}
+						</td>
+						<td>
+							{% if book in user.borrows %}
+								<form method="post">
+									<button type="submit" name="book_id" value={{book.book_id}}>Return</button>
+								</form>
+								{% else %}
+								<form method="post">
+									<button type="submit" name="book_id" value={{book.book_id}}>Borrow</button>
+								</form>
+								{% endif %}
+					 </td>
+					{% endfor %}
+				</tr>
+				</table>
+				<p>
+			{% endif %}
+	{% else %}
+		<p>Welcome to the Imaginary Library! Here you can borrow imaginary books.
+			<p>
+			<table border="black">
+				<tr>
+					<th colspan=2>
+						Books
+					</th>
+				</tr>
+				<tr>
+					<th>
+						Title
+					</th>
+					<th>
+						Author
+					</th>
+				{% for book in books %}
+				<tr>
+					<td>
+						{{book.title}}
+					</td>
+					<td>
+						{{book.author}}
+					</td>
+				</tr>
+				{% endfor %}
+			</table>
+			<p>
+	{% endif %}
+
+
+
+{% endblock %}

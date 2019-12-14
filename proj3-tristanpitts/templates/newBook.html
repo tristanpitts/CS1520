@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block title %}Add Books{% endblock %}
+
+{% block main %}
+	<h2>{{ self.title() }}</h2>
+
+	{% if error %}
+		<div class="error"><strong>Error:</strong> {{ error }}</div>
+	{% endif %}
+
+	<form action="" method="post">
+		<dl>
+			<dt>Title:
+			<dd><input type="text" name="title" size="30" value="{{ request.form.title }}">
+			<dt>Author:
+			<dd><input type="text" name="author" size="30" value="{{ request.form.author }}">
+		</dl>
+		<input type="submit" value="Add Book">
+	</form>
+{% endblock %}

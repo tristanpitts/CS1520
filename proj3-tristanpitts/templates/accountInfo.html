@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}User Info{% endblock %}
+
+{% block main %}
+	<h2>{{ self.title() }}</h2>
+
+	<b>Username: </b> {{user.username}}
+	<p>
+	<b>Email: </b> {{user.email}}
+	<p>
+  <b>User ID: </b> {{user.user_id}}
+  <p>
+	{% if numBooks != 0 %}
+	Currently Borrowing:
+		{% for b in user.borrows %}
+			<li>{{b.title}}
+		{%endfor%}
+	{% else %}
+	This user is currently not borrowing any books
+  {% endif %}
+
+  {% if not isOwner %}
+    	<p>
+    		<form method="post">
+    			<button type="submit" name="delete" value={{user.user_id}}>Remove User</button>
+    		</form>
+  {% endif %}
+	<p>
+	
+{% endblock %}
